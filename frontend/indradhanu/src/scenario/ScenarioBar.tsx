@@ -2,11 +2,14 @@ import {
   ChevronLeft,
   ChevronRight,
   Clock,
+  ExternalLink,
   Gauge,
+  HardHat,
   Pause,
   Play,
   RotateCcw,
   Sparkles,
+  User,
 } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
@@ -19,6 +22,40 @@ import {
 } from "@/components/ui/select"
 import { cn } from "@/lib/utils"
 import { STEPS, useScenario } from "./store"
+
+/** Opens the other two interfaces in their own windows, so a judge can watch
+ *  the same moment from all three sides at once. The scenario clock lives in
+ *  each tab's own store, so each window is driven independently — the point is
+ *  to see the citizen and field views, not to keep three clocks in lockstep. */
+function InterfaceLaunchers({ compact = false }: { compact?: boolean }) {
+  const open = (path: string) =>
+    window.open(path, "_blank", "noopener,noreferrer,width=520,height=900")
+
+  return (
+    <div className="flex shrink-0 items-center gap-1.5">
+      <Button
+        size="sm"
+        variant="outline"
+        onClick={() => open("/citizen")}
+        title="Open the citizen portal in a new window"
+      >
+        <User className="size-3.5" />
+        {!compact && <span>Citizen view</span>}
+        <ExternalLink className="size-3 opacity-60" />
+      </Button>
+      <Button
+        size="sm"
+        variant="outline"
+        onClick={() => open("/field")}
+        title="Open the field operator portal in a new window"
+      >
+        <HardHat className="size-3.5" />
+        {!compact && <span>Field view</span>}
+        <ExternalLink className="size-3 opacity-60" />
+      </Button>
+    </div>
+  )
+}
 
 export function ScenarioBar() {
   const { index, playing, speedMs } = useScenario()
@@ -47,6 +84,7 @@ export function ScenarioBar() {
             Ten steps, about a minute.
           </p>
         </div>
+        <InterfaceLaunchers />
         <Button size="sm" onClick={start} className="shrink-0">
           <Play className="size-3.5" />
           Start guided demo

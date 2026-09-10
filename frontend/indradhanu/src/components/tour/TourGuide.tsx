@@ -80,7 +80,9 @@ export function TourGuide() {
     const preferBottom = (step.side ?? "bottom") === "bottom"
     const roomBelow = vh - (rect.top + rect.height)
     const below = preferBottom ? roomBelow > 200 : roomBelow > 320
-    top = below ? rect.top + rect.height + GAP : Math.max(GAP, rect.top - 200 - GAP)
+    top = below
+      ? rect.top + rect.height + GAP
+      : Math.max(GAP, rect.top - 200 - GAP)
     left = Math.min(
       Math.max(GAP, rect.left + rect.width / 2 - CARD_W / 2),
       vw - CARD_W - GAP
@@ -93,7 +95,7 @@ export function TourGuide() {
       {rect && (
         <div
           aria-hidden
-          className="border-primary pointer-events-none fixed z-[70] rounded-md border-2"
+          className="pointer-events-none fixed z-[70] rounded-md border-2 border-primary"
           style={{
             top: rect.top - 3,
             left: rect.left - 3,
@@ -106,12 +108,12 @@ export function TourGuide() {
       <div
         role="dialog"
         aria-label="Guided walkthrough"
-        className="bg-card fixed z-[71] rounded-lg border-2 shadow-lg"
+        className="fixed z-[71] rounded-lg border-2 bg-card shadow-lg"
         style={{ top, left, width: CARD_W }}
       >
         <div className="flex items-start gap-2 border-b px-4 py-2.5">
           <div className="min-w-0 flex-1">
-            <p className="text-muted-foreground tabular text-[10px] font-semibold tracking-wide uppercase">
+            <p className="tabular text-[10px] font-semibold tracking-wide text-muted-foreground uppercase">
               Walkthrough · {index + 1} of {TOUR_STEPS.length}
             </p>
             <p className="text-sm font-semibold">{step.title}</p>
@@ -138,8 +140,8 @@ export function TourGuide() {
                 key={i}
                 className={
                   i === index
-                    ? "bg-primary size-1.5 rounded-full"
-                    : "bg-muted size-1.5 rounded-full"
+                    ? "size-1.5 rounded-full bg-primary"
+                    : "size-1.5 rounded-full bg-muted"
                 }
               />
             ))}

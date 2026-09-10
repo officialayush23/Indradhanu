@@ -108,6 +108,7 @@ export default function IncidentQueue() {
         <ResizablePanel defaultSize={48} minSize={28}>
           <MapView
             className="h-full w-full"
+            expandable
             wards={wards}
             risks={risks}
             incidents={incidents}

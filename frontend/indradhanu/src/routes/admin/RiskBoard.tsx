@@ -109,6 +109,7 @@ export default function RiskBoard() {
         <ResizablePanel defaultSize={54} minSize={30} data-tour="map">
           <MapView
             className="h-full w-full"
+            expandable
             wards={wards}
             risks={risks}
             shelters={shelters}

@@ -129,6 +129,7 @@ export default function FieldPortal() {
             <Card className="overflow-hidden py-0">
               <MapView
                 className="h-[260px] w-full"
+                expandable
                 wards={wards}
                 risks={risks}
                 resources={resources}

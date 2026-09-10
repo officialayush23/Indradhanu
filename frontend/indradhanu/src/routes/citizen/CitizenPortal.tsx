@@ -190,6 +190,7 @@ export default function CitizenPortal() {
             <Card className="overflow-hidden py-0">
               <MapView
                 className="h-[380px] w-full"
+                expandable
                 wards={wards}
                 risks={risks}
                 shelters={shelters}
