@@ -1,0 +1,47 @@
+# Render blueprint. Deploy with: New > Blueprint, pointed at this repo.
+#
+# Render rather than Vercel for the API: the ortools wheel alone is close to
+# 100 MB, which sits badly inside a serverless function size limit, and the
+# service holds a database connection pool that a per-request runtime cannot.
+services:
+  - type: web
+    name: indradhanu-api
+    runtime: docker
+    dockerfilePath: ./backend/Dockerfile
+    dockerContext: ./backend
+    plan: starter
+    region: singapore
+    healthCheckPath: /health/live
+    autoDeploy: true
+    envVars:
+      - key: INDRADHANU_ENV
+        value: production
+      - key: LOG_LEVEL
+        value: INFO
+      - key: LLM_PROVIDER
+        value: bedrock
+      # Everything below is set in the Render dashboard, never in the repo.
+      - key: CORS_ORIGINS
+        sync: false
+      - key: SUPABASE_URL
+        sync: false
+      - key: SUPABASE_ANON_PUBLIC_KEY
+        sync: false
+      - key: SUPABASE_SERVICE_ROLE_KEY
+        sync: false
+      - key: SUPABASE_JWT_KEY
+        sync: false
+      - key: SUPABASE_TRANSACTION_POOLER
+        sync: false
+      - key: SUPABASE_DIRECT_CONNECTION_STRING
+        sync: false
+      - key: GEMINI_API_KEY
+        sync: false
+      - key: BEDROCK_MODEL_ID
+        sync: false
+      - key: AWS_REGION
+        sync: false
+      - key: AWS_ACCESS_KEY_ID
+        sync: false
+      - key: AWS_SECRET_ACCESS_KEY
+        sync: false

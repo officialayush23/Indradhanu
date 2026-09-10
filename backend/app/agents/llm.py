@@ -70,16 +70,30 @@ class GeminiProvider:
 
 
 class BedrockProvider:
+    """Bedrock via a Bedrock API key.
+
+    AWS issues two credential shapes for Bedrock. Classic IAM keys go through
+    the usual boto3 chain; a Bedrock API key (the `ABSK...` form) is a bearer
+    token that botocore reads from `AWS_BEARER_TOKEN_BEDROCK`. We export it
+    here so either shape works without the caller caring which they hold.
+    """
+
     engine: Engine = "bedrock"
 
-    def __init__(self, model_id: str, region: str) -> None:
+    def __init__(self, model_id: str, region: str, api_key: str = "") -> None:
         self._model_id = model_id
         self._region = region
+        self._api_key = api_key
         self._client = None
 
     def _ensure(self):
         if self._client is None:
+            import os
+
             import boto3
+
+            if self._api_key and not os.environ.get("AWS_BEARER_TOKEN_BEDROCK"):
+                os.environ["AWS_BEARER_TOKEN_BEDROCK"] = self._api_key
 
             self._client = boto3.client("bedrock-runtime", region_name=self._region)
         return self._client
@@ -104,7 +118,11 @@ def _build_provider() -> Provider | None:
     if settings.llm_provider == "gemini" and settings.gemini_api_key:
         return GeminiProvider(settings.gemini_api_key, settings.gemini_model)
     if settings.llm_provider == "bedrock" and settings.bedrock_model_id:
-        return BedrockProvider(settings.bedrock_model_id, settings.aws_region)
+        return BedrockProvider(
+            settings.bedrock_model_id,
+            settings.aws_region,
+            settings.aws_api_key_bedrock_for_xai,
+        )
     return None
 
 

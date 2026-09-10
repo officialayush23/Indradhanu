@@ -1,1 +1,37 @@
+# dependencies
+node_modules/
+.venv/
+venv/
+
+# build output
+dist/
+dist-ssr/
+build/
+.vercel/
+
+# python
+__pycache__/
+*.py[cod]
+*.egg-info/
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+
+# secrets
 .env
+.env.*
+!.env.example
+
+# editors / os
+.vscode/*
+!.vscode/extensions.json
+.idea/
+.DS_Store
+Thumbs.db
+
+# logs
+*.log
+npm-debug.log*
+
+# office lock files
+~$*
